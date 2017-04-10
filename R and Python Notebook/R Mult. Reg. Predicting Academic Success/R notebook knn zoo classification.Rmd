@@ -1,0 +1,182 @@
+---
+title: 'R Notebook: Multiple Regression Model of Student Academic Achievement'
+author: "Tristen Bristow"
+date: "April 6, 2017"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+###  Abstract  
+#### The interest of this study is in developing a prediction model of student success  
+#### based on measured factors of success in Mathematics and Portuguese. Multiple  
+#### regression is applied to develop a regression classifier based on student-provided  
+#### factors that relate to living conditions and education conditions. Though regression  
+#### tree modeling would appear at first to be the correct approach here, the number and  
+#### high-cardinality nature of many of the variables in this data makes such an approach  
+#### less feasible in practice.  
+
+
+
+```{r one, message=FALSE, warning=FALSE}
+set.seed(1)
+library(car)
+library(boot)
+c <- read.table("student-por.csv",sep=";",header=TRUE)
+c <- data.frame(c)
+d <- read.table("student-mat.csv",sep=";",header=TRUE)
+d <- data.frame(d)
+e <- rbind(c,d)
+```
+
+### Data Cleaning  
+
+#### Both Math and Porteguese sets are merged, alternate column titles are applied,  
+#### and all student grades are averaged across three grade entries.  
+
+```{r two, message=FALSE, warning=FALSE}
+names(e) <- c("school","sex","age", "address","family size","parents cohab.", "mom's education", 
+             "dad's education","mom's job", "dad's job","reason", "guardian","travel", "study", 
+             "failures","education support","family support","paid","activities", "nursery","higher",    
+             "internet","romantic","family bond","free time","social","workday alch.","weekend alch.","health",
+             "absences","Grade 1","Grade 2","Grade 3")   
+
+Grade <- (e$`Grade 1` + e$`Grade 2` + e$`Grade 3`) / 3
+e$`Grade 1` <- NULL 
+e$`Grade 2` <- NULL 
+e$`Grade 3` <- NULL
+e = cbind(e, Grade)
+attach(e)
+```
+
+###  Exploratory Investigation  
+#### From initial inspection it is clear education success is to be quantified by  
+#### the Grade variable. Results of inspection indicate general normality of this output  
+#### variable. The class distributions of explanatory variables, 'dad's job' and 'mom's job'  
+#### factors appear to show questionable value by inspection of the summary table.  
+#### This is indicated by the limited difference between class-levels, except for  
+#### the vaguely defined class, 'other', showing the survey question isn't well-defined or  
+#### reliable an indicator. An inspection of the VIF's (Variance Inflation Factors), of  
+#### model parameters is performed to check for multicolonarity in the dataset.  
+ 
+```{r three}
+summary(e)
+hist(Grade)
+str(e)
+names(e)
+
+x1 <- e[c(31, 1 : 10)]
+pairs(x1)
+x2 <- e[c(31, 10 : 20)]
+pairs(x2)
+x3 <- e[c(31, 20 : 30)]
+pairs(x3)
+```
+
+###  Model Development  
+#### K-fold CV is applied in the fitting of linear models on the training data. Successively,  
+#### models of lesser complexity are derived (starting with the saturated model), selecting  
+#### statistically significant predictors that are reported with every model fit. Cross  
+#### validation indicates an Mean Square Error rate estimate to verify that, in choosing  
+#### lower complexity models, we are not introducing significant error. Finally, a best-  
+#### fit model containing significant predictors (showing little difference in MSE from  
+#### the saturated model), is tested with the training data to provide an out-of-sample  
+#### estimate for model performance.  
+  
+###  Initial Fit: The Saturated Model  
+#### The following is a series of progressive model fits to find the best possible fit.  
+#### The saturated model cadinality is 30 variables. 10-fold CV is applied to MSE  
+#### estimation of the model performance on the test data.  
+
+```{r five}
+names(e)
+fit <- glm(Grade~., data = e)
+MSE1 <- cv.glm(e, fit, K = 10)$delta[1]
+summary(fit)
+```
+#### A report on statistical significance of saturated model coefficients indicates  
+#### significant (p < 0.01) predictors of Grade to be study, failures, education, 
+#### support, paid, and higher. 
+### MSE for 10-Fold CV of fit of saturated model:  
+```{r fivehalf}
+MSE1
+```
+#### A check for multicolinarity by VIF shows negative results, indicating the potential for  
+#### linear modelling success (conditioned on all GVIF values being less than 10).  
+
+```{r six}
+vif(fit)
+```
+ 
+### Second Fit  
+#### A lower complxity model of 5 variables (reported significant from the saturated  
+#### model report output) is fitted. All variables included are checked for significance  
+#### (p < 0.01).  
+```{r seven}
+fit2 <- glm(Grade ~ study + failures + `education support` + paid + higher, data = e)
+MSE2 <- cv.glm(e, fit2, K = 10)$delta[1]
+summary(fit2)
+```
+
+### 10-Fold CV MSE estimate of Model II:  
+
+```{r sevenhalf}
+MSE2
+```
+
+#### This model shows negligible difference in MSE from the saturated model and contains  
+#### 26 fewer predictors, thus indicating potential for out-of-sample performance.  
+
+```{r eight}
+summary(fit2)
+par(mfrow = c(3, 2))
+
+plot(Grade, study)
+plot(Grade, failures)
+plot(Grade,`education support`, yaxt='n')
+axis(2, labels = c("false","true"), at = c(1, 2)) 
+plot(Grade, paid, yaxt='n')
+axis(2, labels = c("false","true"), at = c(1, 2)) 
+plot(Grade, higher, yaxt='n')
+axis(2, labels = c("false","true"), at = c(1, 2)) 
+mtext("Significant Factor Plots", side = 3, line = -3, outer = TRUE)
+#dev.off()
+```
+
+###  Results  
+#### This results of this work should be seen as a starting point for more advanced studies  
+#### of success prediction in general education. They may hold significance for the  
+#### source data's originating educational department. It appears strictly domain  
+#### specific: general claims to any general predictive success of any derived models  
+#### is not indicated. This is view is surmised from from the collected data and available  
+#### documentation. The intent interpreted is to find a model of specific factors relevant  
+#### to learning success that are shared between Mathematics an Portuguese, discussed in  
+#### identical terms - identical variables are chosen for both data sets as collected from  
+#### student surveys. This indicates an implicit assumption of the study, that a uniform learning  
+#### measure exists between mathematics and language. This assumption appears to be latent  
+#### in the work, the chosen factors themselves are more general, living-condition or non-  
+#### subject specific. Though the apparent study objective appears to show a general-  
+#### education predictive-intent, only two categories of education are represented in the data.  
+#### It is apparent that, for the chosen causal-factors of study, the data is not sufficiently  
+#### representative to address their generality. In addition, this study has limited data  
+#### relative to the number of factors of interest, and the number of levels for the chosen  
+#### factors included are also non-trival, (the non-binary classes).  
+###  Conclusion
+#### This work could be seen a good use of resources in determining how best to design  
+#### future studies, specifically, what questions to exclude from study surveys in any  
+#### future work. Results of this work indicate a reduction in the set of explanatory variables  
+#### by a factor of 5. In regards to posing domain-specific questions that can be related  
+#### across different academic disciplines, a student's view of past achievement in each  
+#### subject should be included. It is presumed that, generally, it should be assumed that  
+#### student success should not be homogeneously classed - most students could show odd levels  
+#### of success or failure across specific fields. Such a set of related predictors are expected  
+#### to show a significant degree of statistical non-normality across subjects. This study shows  
+#### one of the most predictive factors to be a student's past failure rate, generically defined.  
+#### This factor should be split into multiple predictors of each academic subject category,  
+#### if more education subject-categories are to be included in a re-designed study. It is  
+#### expected that this set of related measures will act as a dominant predictor of general  
+#### education success for an individual student.  
