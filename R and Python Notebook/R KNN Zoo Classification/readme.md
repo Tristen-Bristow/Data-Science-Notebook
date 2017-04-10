@@ -1,5 +1,4 @@
-## A K-Nearest Neighbor Classification-Model of the Animal Kingdom by Outwardly  
-## Observable Phenotypes
+## A K-Nearest Neighbor Classification-Model of the Animal Kingdom by Outwardly Observable Phenotypes
 ###  
 #### Tristen Bristow  
 #### capitolmotion@gmail.com  
