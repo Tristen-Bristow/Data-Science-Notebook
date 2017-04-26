@@ -1,0 +1,93 @@
+---
+title: 'R Notebook: K Nearest Neighbors for Zoological Classification'
+author: "Tristen Bristow"
+date: "April 7, 2017"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+###  Abstract
+#### This study is concerned with categorizing  wildlife by traits that could best inform a  
+#### practical design of zoological display installation. The model investigated is a K-Nearest  
+#### Neighbor subphylum-classifier, classifying individual animals by a typing that includes the  
+#### existence or measure of various phenotypical traits. This study concerns the development  
+#### and testing of a classification model that predicts mammal, bird, reptile, fish, amphibian,  
+#### insect, or crustacean class of the input species. The KNN model is trained by learning which  
+#### other animals/insects are of a simmilar subphylum type based on 16 observable phenotypical  
+#### features. Each input indicates presence or magnitude of these features for a particular animal  
+#### or insect.  
+### Load Data 
+```{r first}
+set.seed(1)
+library(class)
+d = read.table("zoo.DATA", sep=",", header = FALSE)
+d = data.frame(d)
+
+```
+### Data Conditioning 
+#### Phylogenic traits used for classification:
+```{r second}
+names(d) <- c("animal", "hair", "feathers", "eggs", "milk", "airborne",
+"aquatic", "predator", "toothed", "backbone", "breathes", "venomous",
+"fins", "legs", "tail", "domestic", "size", "type")
+
+types <- table(d$type)
+d_target <- d[, 18]
+d_key <- d[, 1]
+d$animal <- NULL
+```
+
+### Exploratory Investigation  
+#### Inspection of the occupancy levels of the classifications (in the merged data set), indicate  
+#### the necessity for cross validation. Any singularly-induced train test split in the data is  
+#### unlikely to provide an adequate balance of training examples for each class. From the summary  
+#### output of the data, it would appear that a very low class-occupancy exists for venomous  
+#### animals (at 7%), which appears as the clearest example this concern. Output classes include:  
+```{r third}
+names(types) <- c("mammal", "bird", "reptile", "fish", "amphibian", "insect", "crustacean")
+types
+summary(d)
+str(d)
+```
+### Training  
+#### The threshold neighbor-size (k), for membership is set to the square root of the number of predictors,  
+#### plus a constant that assigns it to the nearest odd number. A KNN Model is formed from the data using  
+#### Leave One Out Cross Validation.  
+```{r fourth}
+k = sqrt(17) + 1
+m1 <- knn.cv(d, d_target, k, prob = TRUE)
+prediction <- m1
+
+cmat <- table(d_target,prediction)
+acc <- (sum(diag(cmat)) / length(d_target)) * 100
+print(acc)
+```
+### Confusion Matrix 
+```{r fifth}
+data.frame(types)
+cmat
+```
+### Accuracy (%)  
+```{r sixth}
+acc
+```
+###  Discussion  
+#### Classification accuracy of the LOOCV-trained knn model indicates that 90% accuracy is  
+#### to be generally expected by applying this model to out-of-sample data. However, from an  
+#### inspection of the confusion matrix output, it appears that there is generally a 0% accuracy  
+#### for the identification of reptiles and crustaceans. It is unclear if the low-performing  
+#### class outputs is due to there  being a limited amount of data on hand, or if poor class  
+#### separation of the two types is the cause. Overall, this model appears to be a robust  
+#### predictor for all classes excluding reptiles and crustaceans. this classifier can be of  
+#### pragmatic use for classifying various animal and insect into subphylum, providing a  
+#### record of observable phylogenic traits is available for each instance.  
+
+### Conclusion  
+#### It would appear that subphylum is a practical level of species categorization, and is an  
+#### attainable training pattern for the k Nearest Neighbors algorithm.  
+
