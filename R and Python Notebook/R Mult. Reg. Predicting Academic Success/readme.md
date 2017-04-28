@@ -12,7 +12,7 @@
 ###  extract the archive, place 'student-mat.csv' and 'student-por.csv'  
 ###	 in same directory as 'math score model.R'.  
 ###  
-### Plotform for model development and testing:  
+### Platform for model development and testing:  
 - RStudio Version 1.0.136 – © 2009-2016 RStudio, Inc.  
 - R(x64) 3.3.2  
 - Windows 7 Professional 64-bit  
