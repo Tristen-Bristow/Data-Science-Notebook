@@ -1,4 +1,4 @@
-## A K-Nearest Neighbor Classification-Model of the Animal Kingdom by Outwardly Observable Phenotypes
+## A K-Nearest Neighbor Classification Model of the Animal Kingdom by Outwardly Observable Phenotypes
 ###  
 #### Tristen Bristow  
 #### capitolmotion@gmail.com  
@@ -15,7 +15,7 @@
 
 
 ###  
-### Plotform for model development and testing:
+### Platform for model development and testing:
 - RStudio Version 1.0.136 – © 2009-2016 RStudio, Inc.  
 - R(x64) 3.3.2  
 - Windows 7 Professional 64-bit  
