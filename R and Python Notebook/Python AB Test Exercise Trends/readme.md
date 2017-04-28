@@ -1,5 +1,5 @@
 ### Day of Week Exercise Trends:  
-### A/B Testing of Significant Biased Variation of Time-Series Based Walking Activity  
+### A/B Testing of Significant Variation of Time-Series Based Walking Activity  
 ###  
 #### Tristen Bristow  
 #### capitolmotion@gmail.com  
@@ -16,7 +16,7 @@
 #### 17,568 observations in this dataset.  
 
 ###  
-### Plotform for model development and testing:  
+### Platform for model development and testing:  
 - Python 3.5.2 |Anaconda 4.1.1 (64-bit)[MSC v.1900 64 bit (AMD64)]  
 - Windows 7 Professional 64-bit  
 - Intel Core Duo Cpu T9400  @ 2.53 GHz  
