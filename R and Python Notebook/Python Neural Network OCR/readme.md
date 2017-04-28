@@ -14,7 +14,7 @@
 ###  place 'optdigits.tra' and 'optdigits.tes' in same directory
 ###	 as neuralnetdigits.py  
 ###  
-### Plotform for model development and testing:  
+### Platform for model development and testing:  
 - Python 3.5.2 |Anaconda 4.1.1 (64-bit) [MSC v.1900 64 bit (AMD64)]  
 - Windows 7 Professional 64-bit  
 - Intel Core Duo Cpu T9400  @ 2.53 GHz  
