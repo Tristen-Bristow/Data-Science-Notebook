@@ -1,4 +1,4 @@
-## The Prediction of Student Grades Using Multiple Regression Modelling  
+## The Prediction of Student Grades Using Multiple Regression Modeling 
 ###  
 #### Tristen Bristow  
 #### capitolmotion@gmail.com  
