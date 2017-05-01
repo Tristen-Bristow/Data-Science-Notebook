@@ -1,5 +1,5 @@
 ### Day of Week Exercise Trends:  
-### A/B Testing of Significant Variation of Time-Series Based Walking Activity  
+### Testing of Significant Variation of Time-Series Based Walking Activity 
 ###  
 #### Tristen Bristow  
 #### capitolmotion@gmail.com  
