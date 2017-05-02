@@ -54,7 +54,7 @@
 #### and dimensions. The materials used for each of the 18  
 #### elments are the same for all building forms." - Accurate  
 #### quantitative estimation of energy performance of residential  
-#### buildings using statistical machine learning tools  
+#### buildings using statistical machine learning tools" 
 #### Athanasios Tsanas, Angeliki Xifara.  
 
 
