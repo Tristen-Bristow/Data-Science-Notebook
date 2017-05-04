@@ -21,7 +21,7 @@
 ### 
 
 ###	Data Description:  
-#### number of samples: n = 768 building shapes  
+#### number of samples: n = 768  
 #### X1 Relative Compactness (%)
 #### X2 Surface Area (m²)
 #### X3 Wall Area (m²)
