@@ -1,4 +1,4 @@
-## A K-Nearest Neighbor Classification Model of the Animal Kingdom by Outwardly Observable Phenotypes
+## A K-Nearest Neighbor Classification Model of Specified Animal Species by Outwardly Observable Phenotypes  
 ###  
 #### Tristen Bristow  
 #### capitolmotion@gmail.com  
@@ -25,7 +25,7 @@
 ### Origin of source data: Richard S. Forsyth (donated 5/15/1990) 
 ###  
 ### Relevant Information:  
-####  
+####  Number of instances: 101,  number of traits: 17,  
 ####      Class# Set of animals:  
 ####     
 ####           1 (41) aardvark, antelope, bear, boar, buffalo, calf,  
