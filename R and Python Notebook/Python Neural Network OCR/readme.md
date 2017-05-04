@@ -19,7 +19,8 @@
 - Windows 7 Professional 64-bit  
 - Intel Core Duo Cpu T9400  @ 2.53 GHz  
 - 4 GB RAM  
-###  
+###  Data Information:  
+#### Number of instances: 5620, number of attributes 64,  
 #### Origin of source data:  
 #### E. Alpaydin, C. Kaynak  
 #### Department of Computer Engineering
